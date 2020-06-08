@@ -42,8 +42,8 @@ for idx,cat in enumerate(categories):
 X=np.array(x)
 Y=np.array(y)
 
-print(x)
-print("---------------")
-print(X)
+X_train, X_test,Y_train,Y_test=train_test_split(X,Y,test_size=0.1)
+xy=(X_train,X_test,Y_train,Y_test)
+np.save("_image_data.npy",xy)
 
 
