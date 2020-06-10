@@ -12,6 +12,7 @@ import os,glob,sys,numpy as np
 from sklearn.model_selection import train_test_split
 from keras.utils import np_utils
 
+# //연속된 숫자 인식하기
 
 
 X_train, X_test, y_train, y_test=np.load("_image_data.npy",allow_pickle=True)
@@ -41,8 +42,6 @@ model.add(Dense(1,activation="sigmoid"))
 
 model.compile(loss='binary_crossentropy',optimizer='adam',metrics=['accuracy'])
 
-model.compile(loss='binary_crossentropy',optimizer='adam',metrics=['accuracy'])
-
 model_dir='./model'
 
 if not os.path.exists(model_dir):
@@ -52,10 +51,17 @@ model_path=model_dir+"/human_classify.model"
 checkpoint=ModelCheckpoint(filepath=model_path,monitor='val_loss',verbose=1,save_best_only=True)
 early_stopping=EarlyStopping(monitor='val_loss',patience=7)
 
-pixel=image_h*image_w*3
-f=
-img = Image.open(f)
-img = img.convert("RGB")
-img = img.resize((image_w, image_h))
-data = np.asarray(img)
+history=model.fit(X_train,y_train,validation_data=[X_test,y_test], callbacks=[checkpoint,early_stopping],epochs=15)
+
+plt.plot(history.history['loss'])
+plt.plot(history.history['val_loss'])
+plt.plot(history.history['accuracy'])
+plt.plot(history.history['val_accuracy'])
+plt.title('model_loss')
+plt.ylabel('loss')
+plt.xlabel('epoch')
+plt.legend(['loss','val_loss','accuracy','val_accuracy'],loc='upper left')
+plt.show()
+
+
 
